@@ -19,6 +19,16 @@
       --muted: #a39b8f;
       --accent: #b3261e;
       --rule: rgba(244, 239, 231, 0.18);
+      --nav-bg: rgba(13, 12, 11, 0.9);
+    }
+
+    /* Warm cream theme */
+    body.light {
+      --ink: #f4efe7;
+      --paper: #1a1714;
+      --muted: #6b645a;
+      --rule: rgba(26, 23, 20, 0.18);
+      --nav-bg: rgba(244, 239, 231, 0.92);
     }
 
     * { box-sizing: border-box; }
@@ -31,9 +41,10 @@
       font-family: "Inter", Arial, sans-serif;
       font-weight: 300;
       line-height: 1.7;
+      transition: background 0.4s ease, color 0.4s ease;
     }
 
-    /* Film grain overlay for a printed-magazine feel */
+    /* Film grain overlay */
     body::before {
       content: "";
       position: fixed;
@@ -46,7 +57,43 @@
 
     img { display: block; max-width: 100%; }
 
-    /* ---------- Sticky navigation ---------- */
+    /* ---------- Scroll progress bar ---------- */
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      background: var(--accent);
+      z-index: 30;
+    }
+
+    /* ---------- Cursor trail (desktop only) ---------- */
+    .cursor {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 200;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 18px rgba(179, 38, 30, 0.6);
+      transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
+    }
+
+    .has-cursor .cursor { display: block; }
+
+    .cursor.active {
+      width: 42px;
+      height: 42px;
+      background: rgba(179, 38, 30, 0.15);
+    }
+
+    /* ---------- Navigation ---------- */
     nav {
       position: sticky;
       top: 0;
@@ -55,7 +102,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 18px 6%;
-      background: rgba(13, 12, 11, 0.9);
+      background: var(--nav-bg);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--rule);
     }
@@ -64,6 +111,12 @@
       font-family: "Playfair Display", Georgia, serif;
       font-size: 1.1rem;
       letter-spacing: 0.5px;
+    }
+
+    nav .links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
     }
 
     nav ul {
@@ -84,6 +137,20 @@
     }
 
     nav a:hover { color: var(--accent); }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--rule);
+      color: var(--paper);
+      padding: 6px 12px;
+      font-family: "Inter", Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ---------- Hero ---------- */
     .hero {
@@ -114,7 +181,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, var(--ink) 5%, rgba(13, 12, 11, 0.2) 60%);
+      background: linear-gradient(to top, #0d0c0b 5%, rgba(13, 12, 11, 0.2) 60%);
     }
 
     .hero-text {
@@ -140,6 +207,19 @@
       line-height: 0.95;
       margin: 0;
       letter-spacing: -1px;
+      color: #f4efe7;
+    }
+
+    /* Animated headline letters */
+    .ltr {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: letterIn 0.7s ease forwards;
+    }
+
+    @keyframes letterIn {
+      to { opacity: 1; transform: none; }
     }
 
     .hero .deck {
@@ -147,9 +227,10 @@
       font-style: italic;
       font-size: clamp(1.1rem, 2.5vw, 1.5rem);
       margin: 18px 0 0;
+      color: #f4efe7;
     }
 
-    /* ---------- Keyword ticker ---------- */
+    /* ---------- Ticker ---------- */
     .ticker {
       overflow: hidden;
       white-space: nowrap;
@@ -225,7 +306,12 @@
       margin: 0 0 1.2em;
     }
 
-    /* Drop cap on the first paragraph of the intro */
+    body.light .body-copy p,
+    body.light .style-copy p,
+    body.light .timeline p {
+      color: #4a443c;
+    }
+
     .body-copy p:first-child::first-letter {
       float: left;
       font-family: "Playfair Display", Georgia, serif;
@@ -235,7 +321,7 @@
       color: var(--accent);
     }
 
-    figure { margin: 0; overflow: hidden; }
+    figure { margin: 0; overflow: hidden; position: relative; }
 
     figcaption {
       font-size: 0.78rem;
@@ -249,7 +335,33 @@
 
     .zoomable { cursor: zoom-in; }
 
-    /* ---------- Matchday vs off-pitch ---------- */
+    /* ---------- Pull quote ---------- */
+    .pull {
+      font-family: "Playfair Display", Georgia, serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.25;
+      text-align: center;
+      max-width: 900px;
+      margin: 90px auto 0;
+      padding: 40px 0;
+      border-left: none;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .pull cite {
+      display: block;
+      margin-top: 20px;
+      font-family: "Inter", Arial, sans-serif;
+      font-style: normal;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ---------- Matchday vs off-pitch (parallax) ---------- */
     .split {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -263,31 +375,34 @@
       width: 100%;
       height: 640px;
       object-fit: cover;
-      transition: transform 0.6s ease;
+      scale: 1.1;
+      transition: scale 0.6s ease;
     }
 
-    .split figure:hover img,
-    .strip figure:hover img,
-    .style figure:hover img { transform: scale(1.03); }
+    .split figure:hover img { scale: 1.14; }
 
-    /* ---------- Photo strip with hover captions ---------- */
-    .strip {
+    /* ---------- Lookbook (tilt + hover captions) ---------- */
+    .lookbook {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 280px;
       gap: 20px;
-      margin-top: 80px;
+      margin-top: 60px;
     }
 
-    .strip figure { position: relative; }
+    .lookbook .tall { grid-row: span 2; }
 
-    .strip img {
+    .lookbook img {
       width: 100%;
-      height: 360px;
+      height: 100%;
       object-fit: cover;
-      transition: transform 0.6s ease;
+      transition: transform 0.25s ease, scale 0.6s ease;
+      will-change: transform;
     }
 
-    .strip figcaption {
+    .lookbook figure:hover img { scale: 1.04; }
+
+    .lookbook figcaption {
       position: absolute;
       left: 0;
       right: 0;
@@ -295,19 +410,19 @@
       margin: 0;
       padding: 40px 16px 14px;
       border: none;
-      color: var(--paper);
+      color: #f4efe7;
       background: linear-gradient(to top, rgba(13, 12, 11, 0.9), transparent);
       opacity: 0;
       transform: translateY(8px);
       transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
-    .strip figure:hover figcaption {
+    .lookbook figure:hover figcaption {
       opacity: 1;
       transform: none;
     }
 
-    /* ---------- Career snapshot ---------- */
+    /* ---------- Career ---------- */
     .timeline {
       list-style: none;
       margin: 0;
@@ -339,7 +454,7 @@
 
     .timeline p { margin: 0; }
 
-    /* ---------- Style notes (gold accent) ---------- */
+    /* ---------- Style notes (gold accent, parallax) ---------- */
     #style { --accent: #d4a72c; }
 
     .style {
@@ -354,8 +469,11 @@
       height: 620px;
       object-fit: cover;
       object-position: center top;
-      transition: transform 0.6s ease;
+      scale: 1.1;
+      transition: scale 0.6s ease;
     }
+
+    .style figure:hover img { scale: 1.14; }
 
     blockquote {
       margin: 0 0 40px;
@@ -378,7 +496,7 @@
       color: var(--muted);
     }
 
-    /* ---------- Scroll reveal (only when JavaScript runs) ---------- */
+    /* ---------- Scroll reveal ---------- */
     .js .reveal {
       opacity: 0;
       transform: translateY(40px);
@@ -399,9 +517,7 @@
       max-height: 95vh;
     }
 
-    dialog::backdrop {
-      background: rgba(0, 0, 0, 0.92);
-    }
+    dialog::backdrop { background: rgba(0, 0, 0, 0.92); }
 
     dialog img {
       max-width: 95vw;
@@ -415,8 +531,8 @@
       top: 16px;
       right: 20px;
       background: none;
-      border: 1px solid var(--paper);
-      color: var(--paper);
+      border: 1px solid #f4efe7;
+      color: #f4efe7;
       padding: 8px 14px;
       cursor: pointer;
       font-family: "Inter", Arial, sans-serif;
@@ -443,11 +559,11 @@
 
     /* ---------- Responsive ---------- */
     @media (hover: none) {
-      .strip figcaption { opacity: 1; transform: none; }
+      .lookbook figcaption { opacity: 1; transform: none; }
     }
 
     @media (max-width: 1000px) {
-      .strip { grid-template-columns: repeat(2, 1fr); }
+      .lookbook { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 320px; }
     }
 
     @media (max-width: 800px) {
@@ -456,35 +572,43 @@
       .intro, .split, .style { grid-template-columns: 1fr; gap: 40px; }
       .split figure:nth-child(2) { margin-top: 0; }
       .split img, .style img { height: 460px; }
-      .strip img { height: 300px; }
       .timeline li { grid-template-columns: 1fr; gap: 6px; }
       section { padding: 80px 6%; }
+      .pull { margin-top: 60px; }
     }
 
-    /* ---------- Respect reduced motion ---------- */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation: none !important;
         transition: none !important;
       }
       .js .reveal { opacity: 1; transform: none; }
+      .ltr { opacity: 1 !important; transform: none !important; }
+      .cursor { display: none !important; }
     }
   </style>
 </head>
 <body>
 
+  <div class="progress" id="progress"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
   <nav>
     <span class="logo">H.E.</span>
-    <ul>
-      <li><a href="#intro">Intro</a></li>
-      <li><a href="#look">The Look</a></li>
-      <li><a href="#career">Career</a></li>
-      <li><a href="#style">Style</a></li>
-    </ul>
+    <div class="links">
+      <ul>
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#look">The Look</a></li>
+        <li><a href="#lookbook">Lookbook</a></li>
+        <li><a href="#career">Career</a></li>
+        <li><a href="#style">Style</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">Light mode</button>
+    </div>
   </nav>
 
   <header class="hero">
-    <img src="Hugo%20Field%203.jpg" alt="Close-up of Hugo Ekitike in a Liverpool training top with braided hair">
+    <img class="parallax" src="Hugo%20Field%203.jpg" alt="Close-up of Hugo Ekitike in a Liverpool training top with braided hair">
     <div class="hero-text">
       <p class="kicker">Football &amp; Fashion</p>
       <h1>Hugo Ekitike</h1>
@@ -515,77 +639,138 @@
     <h2>Two Worlds, One Look</h2>
     <div class="split">
       <figure class="reveal">
-        <img class="zoomable" src="Hugo%20Field%204.jpeg" alt="Hugo Ekitike on the pitch in a white France shirt with number 19">
+        <img class="zoomable parallax" src="Hugo%20Field%204.jpeg" alt="Hugo Ekitike on the pitch in a white France shirt with number 19">
         <figcaption>Matchday: the France shirt, number 19</figcaption>
       </figure>
       <figure class="reveal">
-        <img class="zoomable" src="Hugo%20Fashion%203.jpeg" alt="Hugo Ekitike in a dark hooded coat at Paris Fashion Week">
+        <img class="zoomable parallax" src="Hugo%20Fashion%203.jpeg" alt="Hugo Ekitike in a dark hooded coat at Paris Fashion Week">
         <figcaption>Off-pitch: a hooded coat at Paris Fashion Week</figcaption>
+      </figure>
+    </div>
+
+    <blockquote class="pull reveal">
+      Matchday is a uniform. Off the pitch, it becomes a choice.
+      <cite>Editor's note</cite>
+    </blockquote>
+  </section>
+
+  <section id="lookbook">
+    <p class="section-label">03 · Lookbook</p>
+    <h2>Ten Looks, Two Lives</h2>
+    <div class="lookbook">
+      <figure class="tall reveal">
+        <img class="zoomable" src="Hugo%20Field%209.jpeg" alt="Hugo Ekitike in a red Liverpool track jacket on a green background">
+        <figcaption>Training: red track jacket</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Field%208.jpg" alt="Hugo Ekitike in a red kit holding up three fingers">
+        <figcaption>Three fingers, red kit</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Field%207.jpeg" alt="Hugo Ekitike in a blue France shirt, number 9, mid-celebration">
+        <figcaption>France blue, number 9</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20field%205.jpeg" alt="Hugo Ekitike celebrating in a red Liverpool number 22 kit">
+        <figcaption>Number 22, Liverpool</figcaption>
+      </figure>
+      <figure class="tall reveal">
+        <img class="zoomable" src="Hugo%20Fashion%2010.jpeg" alt="Hugo Ekitike in a striped hoodie and mirrored sunglasses">
+        <figcaption>Striped hoodie, mirrored shades</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Fashino%209.jpeg" alt="Hugo Ekitike in a leopard print faux fur coat and wide black trousers">
+        <figcaption>Leopard print, wide trousers</figcaption>
+      </figure>
+      <figure class="tall reveal">
+        <img class="zoomable" src="Hugo%20Fashion%208.jpeg" alt="Hugo Ekitike in a long belted red coat against a black backdrop">
+        <figcaption>Red coat, belted</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Fashion%207.jpeg" alt="Hugo Ekitike on the cover of Harrods MAN magazine, Issue 2">
+        <figcaption>Harrods MAN, Issue 2</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Fashion%206.jpeg" alt="Black and white portrait of Hugo Ekitike with braids and a dark jacket">
+        <figcaption>Black and white, braids</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Fashion%205.jpeg" alt="Hugo Ekitike seated in a black tuxedo with a bomber jacket over his shoulders">
+        <figcaption>Tuxedo, bomber over the shoulders</figcaption>
       </figure>
     </div>
   </section>
 
   <section id="career">
-    <p class="section-label">03 · Career Snapshot</p>
+    <p class="section-label">04 · Career Snapshot</p>
     <h2>The Road So Far</h2>
     <ul class="timeline">
       <li class="reveal">
-        <span class="year">Early Years</span>
+        <span class="year">2002</span>
         <div>
-          <h3>French Football</h3>
-          <p>Came through the French league before making his mark in Europe.</p>
+          <h3>Born in Reims, France</h3>
+          <p>Came up through the youth system at his hometown club, Stade de Reims.</p>
         </div>
       </li>
       <li class="reveal">
-        <span class="year">Frankfurt</span>
+        <span class="year">2021</span>
         <div>
-          <h3>Eintracht Frankfurt, Bundesliga</h3>
-          <p>Established himself in the Bundesliga and became one of its most exciting forwards.</p>
+          <h3>Loan to Vejle Boldklub</h3>
+          <p>Spent a season in Denmark, scoring 3 goals in 11 appearances.</p>
+        </div>
+      </li>
+      <li class="reveal">
+        <span class="year">2022–23</span>
+        <div>
+          <h3>Paris Saint-Germain</h3>
+          <p>Joined on loan and played alongside Messi, Neymar, and Mbappé. He won Ligue 1 in his first season in Paris.</p>
+        </div>
+      </li>
+      <li class="reveal">
+        <span class="year">2024</span>
+        <div>
+          <h3>Eintracht Frankfurt</h3>
+          <p>Moved to Frankfurt, where he found regular minutes and his career took off.</p>
+        </div>
+      </li>
+      <li class="reveal">
+        <span class="year">2024–25</span>
+        <div>
+          <h3>Bundesliga breakout</h3>
+          <p>Scored 15 Bundesliga goals and provided 8 assists, earning a place in the Bundesliga Team of the Season.</p>
         </div>
       </li>
       <li class="reveal">
         <span class="year">2025</span>
         <div>
           <h3>Liverpool</h3>
-          <p>Joined the Premier League club and took on a new stage in his career.</p>
+          <p>Signed from Frankfurt in July 2025 and scored on his Liverpool debut in the Community Shield.</p>
+        </div>
+      </li>
+      <li class="reveal">
+        <span class="year">2026</span>
+        <div>
+          <h3>Achilles injury and recovery</h3>
+          <p>Ruptured his Achilles against PSG in April 2026 and had surgery soon after. He is now in rehabilitation, and his return date has not been set.</p>
         </div>
       </li>
     </ul>
   </section>
 
   <section id="style">
-    <p class="section-label">04 · Style Notes</p>
+    <p class="section-label">05 · Style Notes</p>
     <div class="style reveal">
       <figure>
-        <img class="zoomable" src="Hugo%20Fashion%202.jpeg" alt="Hugo Ekitike posing against a plain background in a patterned faux fur coat">
+        <img class="zoomable parallax" src="Hugo%20Fashion%202.jpeg" alt="Hugo Ekitike posing against a plain background in a patterned faux fur coat">
       </figure>
       <div class="style-copy">
         <blockquote>
           Confidence is the real accessory.
-          <cite>On dressing like a footballer</cite>
+          <cite>Editor's note</cite>
         </blockquote>
         <p>A strong look starts with fit. Ekitike favors pieces that move with him, from relaxed trousers to structured jackets, and he isn't afraid of bold texture or color.</p>
         <p>The result is a style that feels natural rather than staged, which is exactly what makes it work.</p>
       </div>
-    </div>
-
-    <div class="strip">
-      <figure class="reveal">
-        <img class="zoomable" src="HUgo%20Ekitike%20Fashion.jpeg" alt="Hugo Ekitike in a yellow jacket, black tie, and wide-leg jeans">
-        <figcaption>Tailored tones</figcaption>
-      </figure>
-      <figure class="reveal">
-        <img class="zoomable" src="Hugo%20Fashion%204.jpeg" alt="Hugo Ekitike in a white suit with a patterned pocket square">
-        <figcaption>All white</figcaption>
-      </figure>
-      <figure class="reveal">
-        <img class="zoomable" src="Hugo%20Field%202.webp" alt="Hugo Ekitike warming up beside a kit bag">
-        <figcaption>Warm-up</figcaption>
-      </figure>
-      <figure class="reveal">
-        <img class="zoomable" src="Hugo%20Ekitike%20Celly.jpeg" alt="Hugo Ekitike celebrating in a red Liverpool kit">
-        <figcaption>Matchday colour</figcaption>
-      </figure>
     </div>
   </section>
 
@@ -600,8 +785,17 @@
   </dialog>
 
   <script>
-    // Scroll reveal
     document.documentElement.classList.add('js');
+
+    // Animated headline: split the name into letters that fade in one by one
+    const h1 = document.querySelector('.hero h1');
+    const title = h1.textContent.trim();
+    h1.setAttribute('aria-label', title);
+    h1.innerHTML = [...title].map((c, i) =>
+      `<span class="ltr" aria-hidden="true" style="animation-delay:${(0.3 + i * 0.07).toFixed(2)}s">${c === ' ' ? '&nbsp;' : c}</span>`
+    ).join('');
+
+    // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -611,6 +805,61 @@
       });
     }, { threshold: 0.15 });
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    // Scroll progress bar and parallax
+    const bar = document.getElementById('progress');
+    const parallaxImgs = document.querySelectorAll('.parallax');
+    function onScroll() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+      parallaxImgs.forEach((img) => {
+        const r = img.parentElement.getBoundingClientRect();
+        const offset = Math.max(-30, Math.min(30, (r.top + r.height / 2 - window.innerHeight / 2) * -0.06));
+        img.style.translate = `0 ${offset.toFixed(1)}px`;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+
+    // Cursor trail (only on devices with a mouse)
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      document.documentElement.classList.add('has-cursor');
+      const dot = document.getElementById('cursor');
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let cx = mx, cy = my;
+      window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+      (function follow() {
+        cx += (mx - cx) * 0.2;
+        cy += (my - cy) * 0.2;
+        dot.style.left = cx + 'px';
+        dot.style.top = cy + 'px';
+        requestAnimationFrame(follow);
+      })();
+      document.querySelectorAll('a, button, img, figure').forEach((el) => {
+        el.addEventListener('mouseenter', () => dot.classList.add('active'));
+        el.addEventListener('mouseleave', () => dot.classList.remove('active'));
+      });
+    }
+
+    // Light and dark theme toggle
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      const light = document.body.classList.toggle('light');
+      toggle.textContent = light ? 'Dark mode' : 'Light mode';
+      toggle.setAttribute('aria-pressed', light);
+    });
+
+    // Card tilt on lookbook photos
+    document.querySelectorAll('.lookbook img').forEach((img) => {
+      img.addEventListener('mousemove', (e) => {
+        const r = img.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        img.style.transform = `perspective(900px) rotateX(${(-py * 8).toFixed(2)}deg) rotateY(${(px * 8).toFixed(2)}deg)`;
+      });
+      img.addEventListener('mouseleave', () => { img.style.transform = ''; });
+    });
 
     // Click-to-enlarge lightbox
     const lightbox = document.getElementById('lightbox');
