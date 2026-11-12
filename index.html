@@ -494,4 +494,139 @@
 
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track">
-      <span>Pitch</span><span>Runway</span><span>L
+      <span>Pitch</span><span>Runway</span><span>Liverpool</span><span>Paris</span><span>Frankfurt</span><span>France</span>
+      <span>Pitch</span><span>Runway</span><span>Liverpool</span><span>Paris</span><span>Frankfurt</span><span>France</span>
+    </div>
+  </div>
+
+  <section id="intro">
+    <p class="section-label">01 · Introduction</p>
+    <div class="intro">
+      <p class="lede reveal">Hugo Ekitike has had a meteoric rise in his football career, and his fashion speaks volumes.</p>
+      <div class="body-copy reveal">
+        <p>Matchday style and everyday style have a lot in common. Both are about confidence, fit, and standing out without trying too hard. On the pitch, the kit is a uniform with personality. Off it, a clean jacket and well-chosen trousers say just as much.</p>
+        <p>Ekitike is a French striker known for his pace, movement, and finishing. The way he carries himself, on the pitch and off it, is part of the story this page tells.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="look">
+    <p class="section-label">02 · Matchday vs. Off-Pitch</p>
+    <h2>Two Worlds, One Look</h2>
+    <div class="split">
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Field%204.jpeg" alt="Hugo Ekitike on the pitch in a white France shirt with number 19">
+        <figcaption>Matchday: the France shirt, number 19</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Fashion%203.jpeg" alt="Hugo Ekitike in a dark hooded coat at Paris Fashion Week">
+        <figcaption>Off-pitch: a hooded coat at Paris Fashion Week</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="career">
+    <p class="section-label">03 · Career Snapshot</p>
+    <h2>The Road So Far</h2>
+    <ul class="timeline">
+      <li class="reveal">
+        <span class="year">Early Years</span>
+        <div>
+          <h3>French Football</h3>
+          <p>Came through the French league before making his mark in Europe.</p>
+        </div>
+      </li>
+      <li class="reveal">
+        <span class="year">Frankfurt</span>
+        <div>
+          <h3>Eintracht Frankfurt, Bundesliga</h3>
+          <p>Established himself in the Bundesliga and became one of its most exciting forwards.</p>
+        </div>
+      </li>
+      <li class="reveal">
+        <span class="year">2025</span>
+        <div>
+          <h3>Liverpool</h3>
+          <p>Joined the Premier League club and took on a new stage in his career.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="style">
+    <p class="section-label">04 · Style Notes</p>
+    <div class="style reveal">
+      <figure>
+        <img class="zoomable" src="Hugo%20Fashion%202.jpeg" alt="Hugo Ekitike posing against a plain background in a patterned faux fur coat">
+      </figure>
+      <div class="style-copy">
+        <blockquote>
+          Confidence is the real accessory.
+          <cite>On dressing like a footballer</cite>
+        </blockquote>
+        <p>A strong look starts with fit. Ekitike favors pieces that move with him, from relaxed trousers to structured jackets, and he isn't afraid of bold texture or color.</p>
+        <p>The result is a style that feels natural rather than staged, which is exactly what makes it work.</p>
+      </div>
+    </div>
+
+    <div class="strip">
+      <figure class="reveal">
+        <img class="zoomable" src="HUgo%20Ekitike%20Fashion.jpeg" alt="Hugo Ekitike in a yellow jacket, black tie, and wide-leg jeans">
+        <figcaption>Tailored tones</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Fashion%204.jpeg" alt="Hugo Ekitike in a white suit with a patterned pocket square">
+        <figcaption>All white</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Field%202.webp" alt="Hugo Ekitike warming up beside a kit bag">
+        <figcaption>Warm-up</figcaption>
+      </figure>
+      <figure class="reveal">
+        <img class="zoomable" src="Hugo%20Ekitike%20Celly.jpeg" alt="Hugo Ekitike celebrating in a red Liverpool kit">
+        <figcaption>Matchday colour</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <footer>
+    <span>Hugo Ekitike · Football &amp; Fashion</span>
+    <span>Built by Nico Golesis · BMIS 235</span>
+  </footer>
+
+  <dialog id="lightbox">
+    <button class="close" type="button">Close</button>
+    <img src="" alt="">
+  </dialog>
+
+  <script>
+    // Scroll reveal
+    document.documentElement.classList.add('js');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    // Click-to-enlarge lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    document.querySelectorAll('.zoomable').forEach((img) => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.showModal();
+      });
+    });
+    lightbox.querySelector('.close').addEventListener('click', () => lightbox.close());
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) lightbox.close();
+    });
+  </script>
+
+</body>
+</html>
